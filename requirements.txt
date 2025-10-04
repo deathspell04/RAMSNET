@@ -1,0 +1,5 @@
+PyQt5==5.15.11
+grpcio==1.75.0
+grpcio-tools==1.75.0
+Pillow==11.0.0
+pynput==1.7.6

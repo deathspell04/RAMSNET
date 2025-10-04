@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+enum Type {
+  UNKNOWN = 0;
+  CONNECTION = 1;
+  ADMIN = 2;
+  CMD = 3;
+  UPLOAD = 4;
+  DOWNLOAD = 5;
+  SCREENSHOT = 6;
+  SHUTDOWN = 7;
+  DELETE = 8;
+}
+
+enum Status {
+  MISSING = 0;
+  OK = 1;
+  ERROR = 2;
+  WAITING = 3;
+}
+
+enum StatusBot {
+  CONNECTED = 0;
+  DISCONNECTED = 1;
+}
+
+message Empty {}
+
+message Geo {
+  string bot_id = 1;
+  string ip = 2;
+  string hostname = 3;
+  string city = 4;
+  string region = 5;
+  string country = 6;
+  string loc = 7;
+}
+
+message Bot {
+  string bot_id = 1;
+  StatusBot status = 2;
+  string system = 3;
+  string node = 4;
+  string release = 5;
+  string version = 6;
+  string machine = 7;
+  string processor = 8;
+  Geo geo = 9;
+}
+
+message TaskId {
+  string task_id = 1;
+}
+
+message Task {
+  string task_id = 1;
+  string bot_id = 2;
+  Type type = 3;
+  Status status = 4;
+  string date_start = 5;
+  string date_finish = 6;
+  string command = 7;
+  string file = 8;
+  string response = 9;
+}
+
+message Response {
+  Status status = 1;
+  Type type = 2;
+}
+
+message BotId {
+  string bot_id = 1;
+}
+
+message Chunk {
+  string bot_id = 1;
+  Status status = 2;
+  string filename = 3;
+  bytes data = 4;
+}
+
+message File {
+  string bot_id = 1;
+  string file = 2;
+}
+
+service Botnet {
+  rpc SendFile(stream Chunk) returns (Response);
+  rpc GetFile(File) returns (stream Chunk);
+  rpc GetBots(Empty) returns (stream Bot);
+  rpc GetActiveBots(Empty) returns (stream Bot);
+  rpc GetBot(BotId) returns (Bot);
+  rpc SetConnection(Bot) returns (Response);
+  rpc SendStreamComplete(stream Task) returns (Response);
+  rpc GetTasksBot(BotId) returns (stream Task);
+  rpc GetCompleteBot(BotId) returns (stream Task);
+  rpc GetTasks(Empty) returns (stream Task);
+  rpc GetComplete(Empty) returns (stream Task);
+  rpc GetTask(TaskId) returns (Task);
+  rpc AddTask(stream Task) returns (Response);
+  rpc GetGlobalBots(Empty) returns (stream Geo);
+}

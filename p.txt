@@ -1,0 +1,59 @@
+1. Estructura general de carpetas
+
+El proyecto está dividido en tres componentes principales:
+
+flaskapp/
+
+Aplicación web desarrollada con Flask, usada por el botmaster para administrar la botnet.
+
+pybotnet.py → archivo principal que inicia la app Flask.
+
+app/ → código central de la aplicación.
+
+modules/ → módulos auxiliares (funciones específicas).
+
+static/ → archivos estáticos (CSS, imágenes).
+
+templates/ → plantillas HTML de la interfaz web.
+
+Su función: ofrecer una interfaz web al administrador para controlar y monitorear los bots.
+
+ server/
+
+Servidor central que gestiona las comunicaciones con los bots mediante gRPC.
+
+grpcserver.py → archivo principal del servidor gRPC.
+
+db/ → base de datos (almacenamiento de información de bots, tareas, etc.).
+
+files/
+
+bots/ → archivos relacionados con los bots.
+
+upload/ → cargas recibidas de los bots.
+
+logs/
+
+bots/ → registros de actividad de cada bot.
+
+server/ → registros del servidor.
+
+modules/ → módulos con lógica adicional.
+
+utils/ → utilidades y funciones de apoyo.
+
+Su función: ser el núcleo de control de la botnet, recibiendo peticiones y enviando órdenes.
+
+ bot/
+
+Código que se ejecuta en las máquinas infectadas.
+
+icon.ico → ícono del ejecutable (para camuflaje).
+
+robot.py → script principal del bot.
+
+exe/ → ejecutables compilados del bot.
+
+modules/ → funcionalidades adicionales que el bot puede ejecutar.
+
+ Su función: ejecutar las órdenes recibidas del servidor y enviar información de vuelta.
